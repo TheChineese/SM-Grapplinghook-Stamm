@@ -10,12 +10,14 @@
 
 #define UPDATE_URL    "http://bitbucket.toastdev.de/sourcemod-plugins/raw/master/GrapplingHook-Stamm.txt"
 
+#pragma semicolon 1
+
 public Plugin myinfo =
 {
 	name = "Stamm: Grappling Hook Premium",
 	author = "Toast",
 	description = "Allow grappling hook for stamm players only",
-	version = "0.0.1",
+	version = "0.0.2",
 	url = "bitbucket.toastdev.de/sourcemod-plugins"
 }
 
@@ -68,23 +70,41 @@ public APLRes AskPluginLoad2(Handle myself,bool late, char[] error, int err_max)
   
 public Action OnPlayerRunCmd(int p_iClient, int &buttons, int &impulse, float vel[3], float angles[3], int &weapon, int &subtype, int &cmdnum, int &tickcount, int &seed, int mouse[2])
 { 
-	if(g_bDebug)
-	{
-	  PrintToChatAll("[Grappling Hook Premium - Debug] Somone run cmd! Player: %N", p_iClient);	
-	}
 	if ((buttons & IN_ATTACK) == IN_ATTACK) 
-    {  
-			
-	    char classname[64];
-	    GetClientWeapon(p_iClient, classname, 64);
-	    
-	    if(g_bDebug)
-		{
-		  PrintToChatAll("[Grappling Hook Premium - Debug] Somone used a weapon! Player: %N, Weapon: %s", p_iClient, classname);	
-		}
-	    if(StrEqual(classname, "tf_weapon_grappling_hook")){
-	      return Plugin_Stop;
-	    }
+    {  	
+		char classname[64];
+		GetClientWeapon(p_iClient, classname, 64);
+	   
+		if(StrEqual(classname, "tf_weapon_grapplinghook"))
+	    {
+			if(IsClientInGame(p_iClient) && STAMM_IsClientValid(p_iClient))
+	      	{
+	      	
+				if(g_bDebug)
+				{
+					PrintToChatAll("[Grappling Hook Premium - Debug] Somone tries to use Grappling Hook! Player: %N", p_iClient);	
+				}
+				
+				int p_iBlock = STAMM_GetBlockOfName("ghaccess");
+	      		
+				if(STAMM_HaveClientFeature(p_iClient, p_iBlock))
+				{
+					if(g_bDebug)
+					{
+						PrintToChatAll("[Grappling Hook Premium - Debug] Access granted");	
+					}
+					
+					return Plugin_Continue;
+				}
+				
+				if(g_bDebug)
+			  	{
+				 	PrintToChatAll("[Grappling Hook Premium - Debug] Access denied");	
+				}
+				 
+				return Plugin_Stop;			    	
+			}
+	  }
 	}
 	return Plugin_Continue;
 }  
