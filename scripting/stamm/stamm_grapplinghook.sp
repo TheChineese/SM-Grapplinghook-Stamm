@@ -42,9 +42,9 @@ public STAMM_OnClientRequestFeatureInfo(client, block, &Handle:array)
 public OnPluginStart()
 {
 	g_cGrapplingHook = FindConVar("tf_grapplinghook_enable");
-	if(!g_cGrapplingHook.BoolValue)
+	if(g_cGrapplingHook == null)
 	{
-		SetFailState("Grappling Hook is not enabled. (tf_grapplinghook_enable)");
+		SetFailState("Grappling Hook Cvar couldn't be found. (tf_grapplinghook_enable)");
 	}
 	
 	
