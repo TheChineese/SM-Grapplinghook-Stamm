@@ -60,7 +60,27 @@ public APLRes AskPluginLoad2(Handle myself,bool late, char[] error, int err_max)
 {
    MarkNativeAsOptional("Updater_AddPlugin");
    return APLRes_Success;
-}
+  }
+  
+public Action OnPlayerRunCmd(int p_iClient, int &buttons, int &impulse, float vel[3], float angles[3], int &weapon, int &subtype, int &cmdnum, int &tickcount, int &seed, int mouse[2])
+{ 
+    if ((buttons & IN_ATTACK) == IN_ATTACK) 
+    {  
+    	
+			
+	    char classname[64];
+	    GetClientWeapon(p_iClient, classname, 64);
+	    
+	    if(g_bDebug)
+		{
+		  PrintToChatAll("[Grappling Hook Premium - Debug] Somone used a weapon! Player: %N, Weapon: %s", p_iClient, classname);	
+		}
+	    if(StrEqual(classname, "tf_weapon_grappling_hook")){
+	      return Plugin_Stop;
+	    }
+	   }
+	   return Plugin_Continue;
+}  
   
   
 public OnLibraryAdded(const String:name[])
