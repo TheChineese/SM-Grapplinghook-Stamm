@@ -1,4 +1,8 @@
 #include <sourcemod>
+#include <sdktools>
+#include <sdkhooks>
+#include <tf2>
+#include <tf2_stocks>
 
 #undef REQUIRE_PLUGIN
 #include <stamm>
@@ -64,9 +68,12 @@ public APLRes AskPluginLoad2(Handle myself,bool late, char[] error, int err_max)
   
 public Action OnPlayerRunCmd(int p_iClient, int &buttons, int &impulse, float vel[3], float angles[3], int &weapon, int &subtype, int &cmdnum, int &tickcount, int &seed, int mouse[2])
 { 
-    if ((buttons & IN_ATTACK) == IN_ATTACK) 
+	if(g_bDebug)
+	{
+	  PrintToChatAll("[Grappling Hook Premium - Debug] Somone run cmd! Player: %N", p_iClient);	
+	}
+	if ((buttons & IN_ATTACK) == IN_ATTACK) 
     {  
-    	
 			
 	    char classname[64];
 	    GetClientWeapon(p_iClient, classname, 64);
@@ -78,8 +85,8 @@ public Action OnPlayerRunCmd(int p_iClient, int &buttons, int &impulse, float ve
 	    if(StrEqual(classname, "tf_weapon_grappling_hook")){
 	      return Plugin_Stop;
 	    }
-	   }
-	   return Plugin_Continue;
+	}
+	return Plugin_Continue;
 }  
   
   
