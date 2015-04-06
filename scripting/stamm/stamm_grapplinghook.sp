@@ -101,8 +101,9 @@ public Action OnPlayerRunCmd(int p_iClient, int &buttons, int &impulse, float ve
 			  	{
 				 	PrintToChatAll("[Grappling Hook Premium - Debug] Access denied");	
 				}
+				buttons &= ~IN_ATTACK;
 				 
-				return Plugin_Stop;			    	
+				return Plugin_Changed;			    	
 			}
 	  }
 	}
