@@ -23,7 +23,7 @@ public Plugin myinfo =
 
 ConVar g_cGrapplingHook = null;
 
-bool g_bDebug = true;
+bool g_bDebug = false;
 
 public void OnAllPluginsLoaded()
 {
@@ -52,9 +52,6 @@ public OnPluginStart()
 	{
 		SetFailState("Grappling Hook Cvar couldn't be found. (tf_grapplinghook_enable)");
 	}
-	
-	
-	HookEvent("player_connect", Event_PlayerConnect_Callback);
 	
 	
 	if (LibraryExists("updater"))
@@ -117,28 +114,4 @@ public OnLibraryAdded(const String:name[])
     {
         Updater_AddPlugin(UPDATE_URL);
     }
-}
-   
-   
-public Action Event_PlayerConnect_Callback(Handle event, char[] name, bool dontBroadcast)
-{
-	// Someone joined the game
-	int p_iUserid = GetEventInt(event, "userid");
-	int p_iClient = GetClientOfUserId(p_iUserid);
-	if(IsClientInGame(p_iClient) && STAMM_IsClientValid(p_iClient)){
-		int p_iBlock = STAMM_GetBlockOfName("ghaccess");
-	
-		if(STAMM_HaveClientFeature(p_iClient, p_iBlock)){
-			return Plugin_Continue;
-		}
-		else{
-			if(g_bDebug)
-			{
-				PrintToChatAll("[Grappling Hook Premium] Disabling grappling hook for: %N", p_iClient);	
-			}
-			SendConVarValue(p_iClient, g_cGrapplingHook, "0");
-			return Plugin_Continue;
-		}
-	}
-	return Plugin_Continue;
 }
