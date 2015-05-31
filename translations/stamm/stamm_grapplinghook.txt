@@ -1,0 +1,13 @@
+﻿"Phrases"
+{
+	"GrapplingHookDescription"
+	{
+		"en"		"You can use grappling hook"
+		"de"		"Du kannst den Grappling Hook benutzen"
+	}
+	"Name"
+	{
+		"en"		"Grappling Hook"
+		"de"		"Grappling Hook"
+	}
+}
